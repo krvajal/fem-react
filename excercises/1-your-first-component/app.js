@@ -5,7 +5,6 @@
 // - put the title in an h1
 // - only render mexican food (hint: arrays have a "filter" method)
 // - sort the items in alphabetical order by name
-//   (might want to use `sort-by` https://github.com/staygrimm/sort-by#example)
 ////////////////////////////////////////////////////////////////////////////////
 
 var React = require('react');
@@ -21,9 +20,20 @@ var DATA = {
   ]
 };
 
+
 var Menu = React.createClass({
   render () {
-    return null;
+    var items =  DATA.items.filter(item => item.type === 'mexican')
+                .sort(sortBy('name'))
+                .map(item => <li> {item.name} </li>)
+    return  (
+      <div>
+        <h1> { DATA.title}</h1>
+        <ul>
+          {items}
+          </ul>
+      </div>
+    );
   }
 });
 

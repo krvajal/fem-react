@@ -39,6 +39,17 @@ ContactsStore.dispatchToken = AppDispatcher.register((payload) => {
       contacts: action.contacts
     });
   }
+  if(action.type === ActionTypes.CONTACT_DELETED) {
+    console.log("Contact deleted");
+    var {contacts} = ContactsStore.getState();
+    var deletedContact = action.deletedContact;
+    var deletedIndex = contacts.findIndex( contact => contact.id === deletedContact.id);
+    var updatedContacts = contacts.slice(0, deletedIndex);
+    updatedContacts = updatedContacts.concat(contacts.slice(deletedIndex + 1));
+    setState({
+      contacts: updatedContacts
+    });
+  }
 });
 
 module.exports = ContactsStore;

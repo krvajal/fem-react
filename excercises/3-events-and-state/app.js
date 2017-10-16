@@ -12,11 +12,23 @@ var DATA = [
 ];
 
 var App = React.createClass({
-
+  getInitialState (){
+    return {
+      currentTab: 0
+    }
+  },
+  activateTab(index){
+    this.setState({
+      currentTab: index
+    });
+  },
   renderTabs () {
+
     return this.props.countries.map((country, index) => {
       return (
-        <div style={index === 0 ? styles.activeTab : styles.tab}>
+        <div style={ index === this.state.currenTab ? styles.activeTab : styles.tab} 
+          onClick={_ => this.activateTab(index)}
+        >
           {country.name}
         </div>
       );
@@ -24,7 +36,7 @@ var App = React.createClass({
   },
 
   renderPanel () {
-    var country = this.props.countries[0];
+    var country = this.props.countries[this.state.currentTab];
     return (
       <div>
         <p>{country.description}</p>
@@ -65,6 +77,57 @@ styles.activeTab = assign({}, styles.tab, {
 styles.tabPanels = {
   padding: 10
 };
+
+var alertStuff  = (msg) => {
+  alert(msg);
+}
+
+var ContentToggle = React.createClass({
+  getInitialState () {
+      return {
+        showStuff: false
+      }
+  },
+  renderDetails() {
+    var showStuff = this.state.showStuff;
+    if (showStuff){
+      return this.props.children;
+    } else {
+      return null;
+    }
+  },
+  toggle() {
+    this.setState({
+      showStuff: !this.state.showStuff
+    })
+  },
+  render(){
+    return (
+      <div className = "ContentToggle">
+        <div clasName = "ContentToggle__Summary" onClick= {this.toggle}>{this.props.summary} </div>
+        <div className = "ContentToggle__Details">
+            {this.renderDetails()}
+        </div>
+      </div>
+    );
+  }
+
+})
+
+var App2 = React.createClass({
+  render(){
+    return (
+      <div> 
+        <button onClick={alertStuff.bind(this, 'hi')}>hi </button>
+        <button onClick={alertStuff.bind(this,' hello')}> hello </button>
+      <ContentToggle summary="Jerk Chiken" >
+        <p> Lorem ipsum</p>
+      </ContentToggle>
+      </div>
+    );
+  }
+});
+
 
 React.render(<App countries={DATA}/>, document.body);
 

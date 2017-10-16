@@ -39,13 +39,11 @@ var Gravatar = React.createClass({
   propTypes: {
     email: emailType
   },
-
   getDefaultProps () {
     return {
       size: 16
     };
   },
-
   render () {
     var { email, size } = this.props;
     var hash = md5(email);
